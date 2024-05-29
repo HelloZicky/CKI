@@ -1,0 +1,40 @@
+export CUDA_VISIBLE_DEVICES=2
+
+python uniting.py \
+--task_name QQP \
+--data_dir ../data/original/QQP \
+--overwrite_output_dir \
+--do_train \
+--do_eval \
+--do_predict \
+--model_name_or_path /data/yekeming/project/neurips2024/uniting4nlp/models/roberta-base \
+--graft_model_path /data/yekeming/project/neurips2024/uniting4nlp/models/roberta-base \
+--model_type roberta \
+--method unimodel \
+--cache_dir model_files \
+--few_shot_type finetune \
+--num_k 16 \
+--max_seq_length 128 \
+--max_length_per_example 128 \
+--per_device_train_batch_size 32 \
+--per_device_eval_batch_size 16 \
+--gradient_accumulation_steps 0 \
+--learning_rate 1e-3 \
+--max_steps 1000 \
+--logging_steps 100 \
+--eval_steps 100 \
+--num_train_epochs 0 \
+--output_dir ../ckpt_paths/QQP/roberta_uniting_32_1e-3 \
+--seed 0 \
+--tag exp \
+--template *cls**sent_0**mask*,*+sentl_1**sep+* \
+--mapping "{'0':'No','1':'Yes'}" \
+--optimizer SGD \
+--use_lm_head 1 \
+--weight_decay 1e-4 \
+--log_file_store ../log_files/QQP/roberta_unimodel_32_1e-3 \
+--use_CLS_linearhead 0 \
+--fix_head True \
+--fix_embeddings True \
+--train_bias_only False \
+--no_train
